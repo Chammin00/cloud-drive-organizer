@@ -1,0 +1,6 @@
+*.log
+.tmp*
+*.duckload
+Thumbs.db
+desktop.ini
+node_modules/
