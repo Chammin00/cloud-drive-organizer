@@ -1,0 +1,186 @@
+/**
+ * Antigravity High-Gloss Lacquer System (high-gloss-lacquer.css)
+ *
+ * Physical Material Optics:
+ * 1. Curved Specular Glare Shield (::before): 135deg glass clear-coat shield with 1px top highlight
+ * 2. Pointer-Tracked Specular Flare (::after): --mouse-x, --mouse-y dynamic bloom
+ * 3. Hover Glare Sweep Sheen: skewX(-25deg) left-to-right sweep via cubic-bezier(0.16, 1, 0.3, 1)
+ * 4. Wet Shadows & Beveled Depth: multi-stage box-shadows 0 8px 32px -4px rgba(2, 6, 18, 0.8)
+ * 5. Color Hierarchy: Deep Lacquer Navy (#050B18 to #0B162C), Cobalt Glaze (#0E1D3A), Polished Camel (#C5A059), Sunlit Tan (#DFBA73)
+ */
+
+:root {
+  /* High-Gloss Optical Color Tokens */
+  --lacquer-navy-base: #050B18;
+  --lacquer-navy-deep: #0B162C;
+  --lacquer-cobalt-glaze: #0E1D3A;
+  --lacquer-cobalt-light: #16284D;
+  --lacquer-tan-camel: #C5A059;
+  --lacquer-tan-sunlit: #DFBA73;
+  --lacquer-tan-glow: rgba(197, 160, 89, 0.3);
+  --lacquer-specular-white: rgba(255, 255, 255, 0.75);
+  --lacquer-wet-abyss: #020610;
+
+  /* Physical Shadow Profiles */
+  --lacquer-wet-shadow: 0 8px 32px -4px rgba(2, 6, 18, 0.8), 0 2px 8px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+  --lacquer-wet-hover-shadow: 0 16px 48px -4px rgba(2, 6, 18, 0.95), 0 0 28px rgba(197, 160, 89, 0.28), inset 0 1px 2px rgba(255, 255, 255, 0.65);
+  --lacquer-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================================================
+   STILL WEBPAGE BACKGROUND ENFORCEMENT
+   ========================================================================== */
+body {
+  background-attachment: fixed !important;
+  animation: none !important;
+}
+
+#screensaver-scene,
+#screensaver-star-canvas,
+#screensaver-planet-glow,
+#screensaver-sun-flare,
+#screensaver-water-shimmer,
+#screensaver-city-glow,
+.glow-container,
+.glow-orb {
+  display: none !important;
+  animation: none !important;
+  transform: none !important;
+}
+
+/* ==========================================================================
+   1. HIGH-GLOSS TILES, CARDS & CONTAINERS
+   ========================================================================== */
+.card, .tile, .app-card, .stat-card, .stat-tile, .glass-panel,
+.player-card, .difficulty-card, .score-card, .remediation-card,
+.hero-readiness-widget, .dash-metric-card, .metric-box, .module-card,
+.feature-card, .board-card, .lesson-card, .drill-card, .summary-card,
+.plan-card, .pricing-card, .inventory-card, .status-card, .widget-card,
+.routine-box, .quick-actions,
+[data-gloss="tile"],
+[class*="card"]:not(.no-gloss),
+[class*="tile"]:not(.no-gloss) {
+  position: relative !important;
+  background: linear-gradient(145deg, #0E1D3A 0%, rgba(14, 29, 58, 0.95) 55%, rgba(5, 11, 24, 0.98) 100%) !important;
+  border: 1px solid rgba(197, 160, 89, 0.28) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: 16px;
+  box-shadow: var(--lacquer-wet-shadow) !important;
+  transition: transform 0.28s var(--lacquer-ease), box-shadow 0.28s var(--lacquer-ease), border-color 0.28s ease !important;
+  overflow: hidden !important;
+  will-change: transform, box-shadow;
+}
+
+/* 1A. Curved Specular Glare Shield (The Clear-Coat Shield) */
+.card::before, .tile::before, .app-card::before, .stat-card::before, .stat-tile::before, .glass-panel::before,
+.player-card::before, .difficulty-card::before, .score-card::before, .remediation-card::before,
+.hero-readiness-widget::before, .dash-metric-card::before, .metric-box::before, .module-card::before,
+.feature-card::before, .board-card::before, .lesson-card::before, .drill-card::before, .summary-card::before,
+.plan-card::before, .pricing-card::before, .inventory-card::before, .status-card::before, .widget-card::before,
+.routine-box::before, .quick-actions::before,
+[data-gloss="tile"]::before,
+[class*="card"]:not(.no-gloss)::before,
+[class*="tile"]:not(.no-gloss)::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  pointer-events: none !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.05) 35%, transparent 60%) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: inherit !important;
+  z-index: 1 !important;
+}
+
+/* 1B. Dynamic Pointer-Tracked Specular Flare */
+.card::after, .tile::after, .app-card::after, .stat-card::after, .stat-tile::after, .glass-panel::after,
+.player-card::after, .difficulty-card::after, .score-card::after, .remediation-card::after,
+.hero-readiness-widget::after, .dash-metric-card::after, .metric-box::after, .module-card::after,
+.feature-card::after, .board-card::after, .lesson-card::after, .drill-card::after, .summary-card::after,
+.plan-card::after, .pricing-card::after, .inventory-card::after, .status-card::after, .widget-card::after,
+.routine-box::after, .quick-actions::after,
+[data-gloss="tile"]::after,
+[class*="card"]:not(.no-gloss)::after,
+[class*="tile"]:not(.no-gloss)::after {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  pointer-events: none !important;
+  background: radial-gradient(circle 220px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.22), transparent 70%) !important;
+  border-radius: inherit !important;
+  opacity: 0 !important;
+  transition: opacity 0.3s ease !important;
+  z-index: 2 !important;
+}
+
+/* Hover Optical Bloom activation */
+.card:hover::after, .tile:hover::after, .app-card:hover::after, .stat-card:hover::after, .stat-tile:hover::after, .glass-panel:hover::after,
+.player-card:hover::after, .difficulty-card:hover::after, .score-card:hover::after, .remediation-card:hover::after,
+.hero-readiness-widget:hover::after, .dash-metric-card:hover::after, .metric-box:hover::after, .module-card:hover::after,
+.feature-card:hover::after, .board-card:hover::after, .lesson-card:hover::after, .drill-card:hover::after, .summary-card:hover::after,
+.plan-card:hover::after, .pricing-card:hover::after, .inventory-card:hover::after, .status-card:hover::after, .widget-card:hover::after,
+.routine-box:hover::after, .quick-actions:hover::after,
+[data-gloss="tile"]:hover::after,
+[class*="card"]:not(.no-gloss):hover::after,
+[class*="tile"]:not(.no-gloss):hover::after {
+  opacity: 1 !important;
+}
+
+/* Tile Hover Elevation & Specular Reflection */
+.card:hover, .tile:hover, .app-card:hover, .stat-card:hover, .stat-tile:hover, .glass-panel:hover,
+.player-card:hover, .difficulty-card:hover, .score-card:hover, .remediation-card:hover,
+.hero-readiness-widget:hover, .dash-metric-card:hover, .metric-box:hover, .module-card:hover,
+.feature-card:hover, .board-card:hover, .lesson-card:hover, .drill-card:hover, .summary-card:hover,
+.plan-card:hover, .pricing-card:hover, .inventory-card:hover, .status-card:hover, .widget-card:hover,
+.routine-box:hover, .quick-actions:hover,
+[data-gloss="tile"]:hover,
+[class*="card"]:not(.no-gloss):hover,
+[class*="tile"]:not(.no-gloss):hover {
+  transform: translateY(-4px) scale(1.008) !important;
+  border-color: rgba(223, 186, 115, 0.85) !important;
+  border-top-color: rgba(255, 255, 255, 0.85) !important;
+  box-shadow: var(--lacquer-wet-hover-shadow) !important;
+}
+
+/* Protect Child Content under specular overlays */
+.card > *, .tile > *, .app-card > *, .stat-card > *, .stat-tile > *, .glass-panel > *,
+[data-gloss="tile"] > * {
+  position: relative;
+  z-index: 3;
+}
+
+/* ==========================================================================
+   2. HOVER GLARE SWEEP SHEEN (BUTTONS & PILLS)
+   ========================================================================== */
+.btn, button, .pill, .chip, .cat-pill, .nav-tab,
+.action-pill-btn, .btn-primary, .btn-secondary,
+[class*="btn"]:not(.no-sheen),
+[class*="pill"]:not(.no-sheen) {
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.btn::after, button::after, .pill::after, .chip::after, .cat-pill::after, .nav-tab::after,
+.action-pill-btn::after, .btn-primary::after, .btn-secondary::after,
+[class*="btn"]:not(.no-sheen)::after,
+[class*="pill"]:not(.no-sheen)::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: -130% !important;
+  width: 65% !important;
+  height: 100% !important;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent) !important;
+  transform: skewX(-25deg) !important;
+  pointer-events: none !important;
+  transition: none !important;
+  z-index: 5 !important;
+}
+
+.btn:hover::after, button:hover::after, .pill:hover::after, .chip:hover::after, .cat-pill:hover::after, .nav-tab:hover::after,
+.action-pill-btn:hover::after, .btn-primary:hover::after, .btn-secondary:hover::after,
+[class*="btn"]:not(.no-sheen):hover::after,
+[class*="pill"]:not(.no-sheen):hover::after {
+  left: 170% !important;
+  transition: left 0.65s var(--lacquer-ease) !important;
+}
+
